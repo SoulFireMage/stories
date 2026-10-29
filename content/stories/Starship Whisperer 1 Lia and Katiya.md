@@ -1,8 +1,8 @@
 ---
-title: ''
-series: ''
+title: Starship Whisperer Book 1
+series: Starship Whisperer
 weight: null
-description: ''
+description: Starship Whisperer Book 1
 date: ''
 draft: false
 ---
