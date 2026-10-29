@@ -41,7 +41,7 @@ collections:
       - { label: Order, name: weight, widget: number, value_type: int, required: false, hint: 'Lower numbers come first within a series (or among stories with no series).' }
       - { label: Description, name: description, widget: string, required: false, hint: 'One line shown under the title on the index.' }
       - { label: Date, name: date, widget: datetime, required: false }
-      - { label: Draft, name: draft, widget: boolean, default: false, required: false, hint: 'Drafts are left off the published site.' }
+      - { label: Draft, name: draft, widget: boolean, default: false, required: false, hint: 'Still published, marked as a work in progress.' }
       # Raw Markdown first: Google Docs exports can carry inline HTML that a
       # rich-text round trip could mangle. Switch per edit if wanted.
       - &body { label: Body, name: body, widget: markdown, modes: [raw, rich_text] }

@@ -9,6 +9,7 @@
     <p class="meta">
       {{- with .Params.author }}{{ . }} · {{ end -}}
       {{ .WordCount | lang.FormatNumber 0 }} words · {{ .ReadingTime }} min read
+      {{- if .Draft }} · <span class="wip">work in progress</span>{{ end }}
     </p>
   </header>
   <div class="prose">

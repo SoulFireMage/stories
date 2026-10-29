@@ -28,7 +28,7 @@ title: Starship Whisperer I
 series: Aktarian Tales   # stories sharing a series are grouped on the index
 weight: 1                # order within the series (lowest first)
 description: Where it begins.
-draft: true              # leaves it off the published site
+draft: true              # still published, marked "work in progress"
 ---
 ```
 

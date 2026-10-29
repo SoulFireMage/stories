@@ -44,6 +44,7 @@ jobs:
           HUGO_ENV: production
         run: |
           hugo \
+            --buildDrafts \
             --buildExpired \
             --buildFuture \
             --gc \

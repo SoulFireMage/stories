@@ -9,7 +9,7 @@
   Stories that share a "series" are grouped; within a group, "weight"
   (lowest first) wins, then date, then title.
 */}}
-{{- $stories := where site.RegularPages "Draft" false }}
+{{- $stories := site.RegularPages }}
 {{- $stories = sort (sort $stories "Date") "Weight" }}
 {{- $series := slice }}
 {{- range $stories }}{{ with .Params.series }}{{ $series = $series | append . }}{{ end }}{{ end }}

@@ -142,6 +142,7 @@ h2 { font-size: 1.3rem; color: var(--accent); }
 .meta { color: var(--muted); font-size: .85rem; }
 
 .story-header { margin-bottom: 2rem; }
+.wip { display: inline-block; padding: 0 8px; border: 1px solid var(--crimson); border-radius: 999px; color: var(--crimson); font: .75rem/1.6 var(--ui); vertical-align: middle; }
 .series { margin: 0 0 4px; color: var(--crimson); font-size: .85rem; letter-spacing: .08em; text-transform: uppercase; }
 
 .back { margin: 2.5rem 0; }

@@ -3,6 +3,6 @@
   <h1>{{ partial "title.html" . }}</h1>
   {{ .Content }}
 </article>
-{{ partial "story-list.html" (where .RegularPages "Draft" false) }}
+{{ partial "story-list.html" .RegularPages }}
 <nav class="back"><a href="{{ "" | relURL }}">← All stories</a></nav>
 {{ end }}

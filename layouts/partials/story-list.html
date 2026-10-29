@@ -2,6 +2,7 @@
   {{- range . }}
   <li>
     <a href="{{ .RelPermalink }}">{{ partial "title.html" . }}</a>
+    {{- if .Draft }} <span class="wip">work in progress</span>{{ end }}
     {{- with .Description }}<p>{{ . }}</p>{{ end }}
     <span class="meta">{{ .WordCount | lang.FormatNumber 0 }} words · {{ .ReadingTime }} min read</span>
   </li>
