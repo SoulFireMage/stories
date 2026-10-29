@@ -1,3 +1,12 @@
+---
+title: White Falcon
+series: ''
+weight: null
+description: ''
+date: 2026-10-29T19:47:00
+draft: false
+---
+
 Reminders to self: limitations include folding only places he's been and within reach of his ship senses when he'd been there.   
 Tell the story of how his transformation saved him initially and then he ended up needing taking, as a human, to another station, whilst hiding what he could do. Show, live it in the story don't just tell it. 
 
@@ -128,7 +137,7 @@ Focussing his eldritch senses on where Hessia was, several hundred light years d
 \*\*\*  
 Interlude: Inspector Gavron
 
-“He’s here again.” I watched the slim shipsuited boy appear in the main thoroughfare to the Plaza. Three times this individual appeared without any clear path as to where from. Gawain McCanter of Gabon Station, the Messenger and owner of Falcon Fast Couriers. The mystery was he never appeared on any ship manifests yet as far as I could tell he’d visited dozens of stations in the past three months alone. There was no explanation. No laws had been broken, I wish they had been. I’d tried to catch up to him a couple of times now but somehow he was never where I expected to be.
+“He’s here again.” I watched the slim shipsuited boy appear in the main thoroughfare to the Plaza. Three times this individual appeared without any clear path as to where from. Gawain McCanter of Gabon Station, the messenger and owner of Falcon Fast Couriers. The mystery was he never appeared on any ship manifests yet as far as I could tell he’d visited dozens of stations in the past three months alone. There was no explanation. No laws had been broken, I wish they had been. I’d tried to catch up to him a couple of times now but somehow he was never where I expected to be.
 
 I sighed. Without a clear crime, mystery alone wouldn’t justify more investigation time. I knew there was a mystery to be solved there. Maybe I could simply give him some work?
 
