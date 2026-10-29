@@ -1,7 +1,7 @@
 ---
 title: Starship Whisperer Book 1
 series: Starship Whisperer
-weight: null
+weight: 1
 description: Starship Whisperer Book 1
 date: ''
 draft: false
