@@ -1,3 +1,12 @@
+---
+title: Were Cars - Rakza
+series: ''
+weight: null
+description: ''
+date: ''
+draft: false
+---
+
 # Prologue
 
 The mech virus was created when research into synthetic life and nanotechnology was rampant, uncontrolled and diverse. A small number of people were infected with a six base synthetic DNA virus with dramatic effects. Such DNA could never arise independently in nature, however---thanks to meddling scientists---it did and, like any life creating molecule, it soon found a niche. Our own biological history is littered with unlikely partnerships between virii, bacteria and other organisms---every cell in your body hosts symbiotes that now are necessary to create energy for life itself.
