@@ -1,7 +1,7 @@
 ---
 title: Starship Whisperer 3 - Yana
 series: Starship Whisperer
-weight: null
+weight: 3
 description: ''
 date: ''
 draft: false
