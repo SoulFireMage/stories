@@ -1,3 +1,12 @@
+---
+title: The Quiet Place
+series: ''
+weight: null
+description: ''
+date: ''
+draft: false
+---
+
 ![][image1]
 
 [Discovery](#discovery)
