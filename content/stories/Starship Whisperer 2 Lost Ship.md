@@ -1,6 +1,6 @@
 ---
 title: Starship Whisperer 2 - Yiss
-series: ''
+series: Starship Whisperer
 weight: null
 description: ''
 date: ''
