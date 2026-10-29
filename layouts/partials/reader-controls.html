@@ -1,0 +1,33 @@
+{{- /*
+  Reading controls for story pages: text size (A−/A+) and text width.
+  Width works like Kindle margins, as in openlogz: the slider runs from a narrow
+  column (20em) to the whole screen on a log scale, so ordinary reading widths
+  get most of the travel. Width is in em of the story text, so bigger text keeps
+  the same words per line. Both settings are remembered in this browser.
+  Saved values are applied before first paint by the script in baseof.html.
+*/ -}}
+<div class="reader-controls" hidden>
+  <button type="button" data-size="-1" title="Smaller text" aria-label="Smaller text">A−</button>
+  <button type="button" data-size="1" title="Larger text" aria-label="Larger text">A+</button>
+  <label class="reader-width" title="Text width">
+    <span aria-hidden="true">↔</span>
+    <input type="range" min="0" max="100" step="1" aria-label="Text width">
+  </label>
+  <button type="button" data-reset title="Back to the default size and width">Reset</button>
+</div>
+<script>
+  (function () {
+    var R = window.sfmReader, box = document.currentScript.previousElementSibling;
+    if (!R) return;
+    var range = box.querySelector('input');
+    range.value = R.width;
+    box.hidden = false;
+    box.addEventListener('click', function (e) {
+      var b = e.target.closest('button');
+      if (!b) return;
+      if (b.hasAttribute('data-reset')) { R.set(R.SIZE_DEFAULT, R.WIDTH_DEFAULT); range.value = R.width; return; }
+      R.set(Math.max(14, Math.min(28, R.size + +b.dataset.size)), R.width);
+    });
+    range.addEventListener('input', function () { R.set(R.size, +range.value); });
+  })();
+</script>

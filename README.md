@@ -1,6 +1,6 @@
 # Stories
 
-Fiction by Richard Griffiths, published at **https://soulfiremage.github.io/stories/**.
+Fiction by Richard Griffiths, published at **https://starship-whisperer.com/stories/**.
 
 A small [Hugo](https://gohugo.io/) site. Every push to `main` rebuilds it through
 `.github/workflows/hugo.yml` (usually live in 1–2 minutes).
@@ -41,7 +41,7 @@ stories, and the list itself updates on its own from whatever is in `content/`.
 
 Same setup as the main site.
 
-**Site editor:** https://soulfiremage.github.io/stories/admin/ runs
+**Site editor:** https://starship-whisperer.com/stories/admin/ runs
 [Sveltia CMS](https://sveltiacms.app/en/docs), which edits the Markdown here through
 the GitHub API. Sign in with **Sign In Using Access Token** and a fine-grained
 GitHub token with **Contents: Read and write** on this repository. The easiest
@@ -59,6 +59,15 @@ main site), every page shows a button bar at the bottom left:
 - **+ New story**: opens a blank story in the site editor.
 
 Visitors never see it. Add `?edit=on` or `?edit=off` to any page URL to toggle it.
+
+## Reading controls
+
+Every story has **A−/A+** (text size, 14–28px) and a **width slider** under its title,
+borrowed from openlogz: it runs from a narrow column to the full screen on a log
+scale, measured in characters so bigger text keeps the same words per line.
+**Reset** restores the defaults. Choices are remembered per browser. On phones only
+the size buttons show. Code: `layouts/partials/reader-controls.html` and the
+`sfmReader` script in `layouts/_default/baseof.html`.
 
 ## Layout
 

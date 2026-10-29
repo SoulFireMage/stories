@@ -145,6 +145,25 @@ h2 { font-size: 1.3rem; color: var(--accent); }
 .wip { display: inline-block; padding: 0 8px; border: 1px solid var(--crimson); border-radius: 999px; color: var(--crimson); font: .75rem/1.6 var(--ui); vertical-align: middle; }
 .series { margin: 0 0 4px; color: var(--crimson); font-size: .85rem; letter-spacing: .08em; text-transform: uppercase; }
 
+/* Story pages widen with the reader's chosen width (--read-width is in em of
+   the story text, so it is applied on an element with that font size). */
+main:has(.story) { max-width: none; }
+.story, main:has(.story) .back { max-width: var(--read-width, 38em); margin-left: auto; margin-right: auto; font-size: var(--read-size, 18px); }
+main:has(.story) .back { font-size: 1rem; max-width: 44rem; }
+.story-header { font-size: 1rem; }
+.story .prose { font-size: 1em; }
+
+.reader-controls { display: flex; flex-wrap: wrap; align-items: center; gap: 6px; margin-top: 12px; font: .85rem var(--ui); color: var(--muted); }
+.reader-controls[hidden] { display: none; }
+.reader-controls button {
+  border: 1px solid var(--border); background: var(--surface); color: var(--text);
+  border-radius: 6px; padding: 3px 10px; font: inherit; cursor: pointer;
+}
+.reader-controls button:hover { border-color: var(--accent); color: var(--accent); }
+.reader-width { display: inline-flex; align-items: center; gap: 6px; margin-left: 6px; }
+.reader-width input { width: 140px; accent-color: var(--accent); }
+@media (max-width: 760px) { .reader-width { display: none; } }
+
 .back { margin: 2.5rem 0; }
 .empty { color: var(--muted); }
 

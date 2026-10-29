@@ -11,6 +11,7 @@
       {{ .WordCount | lang.FormatNumber 0 }} words · {{ .ReadingTime }} min read
       {{- if .Draft }} · <span class="wip">work in progress</span>{{ end }}
     </p>
+    {{- partial "reader-controls.html" . }}
   </header>
   <div class="prose">
     {{ .Content }}

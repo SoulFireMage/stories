@@ -1,4 +1,4 @@
-baseURL = 'https://soulfiremage.github.io/stories/'
+baseURL = 'https://starship-whisperer.com/stories/'
 languageCode = 'en-gb'
 title = 'Stories'
 
@@ -8,7 +8,7 @@ disableKinds = ['taxonomy', 'term']
 [params]
   author = 'Richard Griffiths'
   description = 'Stories by Richard Griffiths, including the Aktarian Tales.'
-  mainSite = 'https://soulfiremage.github.io/'
+  mainSite = 'https://starship-whisperer.com/'
   repo = 'https://github.com/SoulFireMage/stories'
   branch = 'main'
 

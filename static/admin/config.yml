@@ -12,8 +12,8 @@ backend:
     uploadMedia: 'Upload “{{path}}” (via site editor)'
     deleteMedia: 'Delete “{{path}}” (via site editor)'
 
-site_url: https://soulfiremage.github.io/stories/
-display_url: https://soulfiremage.github.io/stories/
+site_url: https://starship-whisperer.com/stories/
+display_url: https://starship-whisperer.com/stories/
 logo_url: /stories/images/wing-left.png
 
 media_folder: static/images

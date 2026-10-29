@@ -13,6 +13,22 @@
   <script>
     // Apply a saved light/dark choice before first paint.
     try { var t = localStorage.getItem('sfm-theme'); if (t) document.documentElement.dataset.theme = t; } catch (e) {}
+
+    // Story text size and width (controls: layouts/partials/reader-controls.html).
+    window.sfmReader = (function () {
+      var R = { SIZE_DEFAULT: 18, WIDTH_DEFAULT: 36 }, root = document.documentElement;
+      function load(k, d) { try { var v = localStorage.getItem('sfm-read-' + k); return v === null ? d : +v; } catch (e) { return d; } }
+      R.set = function (size, width) {
+        R.size = size; R.width = width;
+        root.style.setProperty('--read-size', size + 'px');
+        root.style.setProperty('--read-width', width >= 100 ? 'none' : (20 * Math.pow(6, width / 100)).toFixed(1) + 'em');
+        try { localStorage.setItem('sfm-read-size', size); localStorage.setItem('sfm-read-width', width); } catch (e) {}
+      };
+      R.size = load('size', R.SIZE_DEFAULT); R.width = load('width', R.WIDTH_DEFAULT);
+      root.style.setProperty('--read-size', R.size + 'px');
+      root.style.setProperty('--read-width', R.width >= 100 ? 'none' : (20 * Math.pow(6, R.width / 100)).toFixed(1) + 'em');
+      return R;
+    })();
   </script>
   {{- with resources.Get "css/main.css" | minify | fingerprint }}
   <link rel="stylesheet" href="{{ .RelPermalink }}" integrity="{{ .Data.Integrity }}">
