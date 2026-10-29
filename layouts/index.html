@@ -22,7 +22,9 @@
   </section>
 {{- end }}
 
-{{- $loose := where $stories "Params.series" "==" nil }}
+{{- /* No series, or an empty one (the editor saves a blank field as series: ''). */}}
+{{- $loose := slice }}
+{{- range $stories }}{{ if not .Params.series }}{{ $loose = $loose | append . }}{{ end }}{{ end }}
 {{- with $loose }}
   <section class="story-group">
     {{- if $series }}<h2>Other stories</h2>{{ end }}
