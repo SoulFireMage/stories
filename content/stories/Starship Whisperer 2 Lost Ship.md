@@ -1,3 +1,12 @@
+---
+title: ''
+series: ''
+weight: null
+description: ''
+date: ''
+draft: false
+---
+
 July 3rd 2018 - Kindle Format and 1/3rd draft complete
 
 No part of this publication may be replicated, redistributed, or given away in any form without the written consent of the author/publisher.
@@ -6,53 +15,53 @@ Latest edit 11/10/2018
 
 Contents
 
-[[Prologue]{.underline}](#prologue)
+[[Prologue]](#prologue)
 
-[[Chapter 1 - Yissindra]{.underline}](#chapter-1---yissindra)
+[[Chapter 1 - Yissindra]](#chapter-1---yissindra)
 
-[[Chapter 2 - Roderick]{.underline}](#chapter-2---roderick)
+[[Chapter 2 - Roderick]](#chapter-2---roderick)
 
-[[Chapter 3 - Roderick & Yissindra]{.underline}](#chapter-3---roderick-yissindra)
+[[Chapter 3 - Roderick & Yissindra]](#chapter-3---roderick-yissindra)
 
-[[Chapter 4 - Roderick & Yissindra]{.underline}](#chapter-4---roderick-yissindra)
+[[Chapter 4 - Roderick & Yissindra]](#chapter-4---roderick-yissindra)
 
-[[Chapter 5 - Roderick & Yissindra]{.underline}](#chapter-5---roderick-yissindra)
+[[Chapter 5 - Roderick & Yissindra]](#chapter-5---roderick-yissindra)
 
-[[Chapter 6- Roderick & Yissindra]{.underline}](#chapter-6--roderick-yissindra)
+[[Chapter 6- Roderick & Yissindra]](#chapter-6--roderick-yissindra)
 
-[[Chapter 7 - Daniel]{.underline}](#chapter-7---daniel)
+[[Chapter 7 - Daniel]](#chapter-7---daniel)
 
-[[Chapter 8 - Roderick & Yissindra]{.underline}](#chapter-8---roderick-yissindra)
+[[Chapter 8 - Roderick & Yissindra]](#chapter-8---roderick-yissindra)
 
-[[Chapter 9 - Roderick & Yissindra]{.underline}](#chapter-9---roderick-yissindra)
+[[Chapter 9 - Roderick & Yissindra]](#chapter-9---roderick-yissindra)
 
-[[Chapter 10 - Daniel]{.underline}](#chapter-10---daniel)
+[[Chapter 10 - Daniel]](#chapter-10---daniel)
 
-[[Chapter 11 - Roderick & Yissindra]{.underline}](#chapter-11---roderick-yissindra)
+[[Chapter 11 - Roderick & Yissindra]](#chapter-11---roderick-yissindra)
 
-[[Chapter 12 - Roderick & Yissindra]{.underline}](#chapter-12---roderick-yissindra)
+[[Chapter 12 - Roderick & Yissindra]](#chapter-12---roderick-yissindra)
 
-[[Chapter 13 - Roderick & Yissindra]{.underline}](#chapter-13---roderick-yissindra)
+[[Chapter 13 - Roderick & Yissindra]](#chapter-13---roderick-yissindra)
 
-[[Chapter 14 - Roderick & Yissindra]{.underline}](#chapter-14---roderick-yissindra)
+[[Chapter 14 - Roderick & Yissindra]](#chapter-14---roderick-yissindra)
 
-[[Chapter 15 - Roderick & Yissindra]{.underline}](#chapter-15---roderick-yissindra)
+[[Chapter 15 - Roderick & Yissindra]](#chapter-15---roderick-yissindra)
 
-[[Chapter 16 - Daniel]{.underline}](#chapter-16---daniel)
+[[Chapter 16 - Daniel]](#chapter-16---daniel)
 
-[[Chapter 17 - Roderick and Yiss]{.underline}](#chapter-17---roderick-and-yiss)
+[[Chapter 17 - Roderick and Yiss]](#chapter-17---roderick-and-yiss)
 
-[[Chapter 18 - Roderick & Yissindra]{.underline}](#chapter-18---roderick-yissindra)
+[[Chapter 18 - Roderick & Yissindra]](#chapter-18---roderick-yissindra)
 
-[[Chapter 19 Daniel]{.underline}](#chapter-19-daniel)
+[[Chapter 19 Daniel]](#chapter-19-daniel)
 
-[[Chapter 20 - Roderick & Yissindra]{.underline}](#chapter-20---roderick-yissindra)
+[[Chapter 20 - Roderick & Yissindra]](#chapter-20---roderick-yissindra)
 
-[[Chapter 21 - Roderick & Yissindra]{.underline}](#chapter-21---roderick-yissindra)
+[[Chapter 21 - Roderick & Yissindra]](#chapter-21---roderick-yissindra)
 
-[[Chapter 22 - Daniel]{.underline}](#chapter-22---daniel)
+[[Chapter 22 - Daniel]](#chapter-22---daniel)
 
-[[Chapter 23 - Roderick and Yissindra]{.underline}](#chapter-23---roderick-and-yissindra)
+[[Chapter 23 - Roderick and Yissindra]](#chapter-23---roderick-and-yissindra)
 
 # 
 
