@@ -1,0 +1,8 @@
+{{ define "main" }}
+<article class="home-intro prose">
+  <h1>{{ partial "title.html" . }}</h1>
+  {{ .Content }}
+</article>
+{{ partial "story-list.html" (where .RegularPages "Draft" false) }}
+<nav class="back"><a href="{{ "" | relURL }}">← All stories</a></nav>
+{{ end }}

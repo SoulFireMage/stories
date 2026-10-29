@@ -1,0 +1,36 @@
+{{ define "main" }}
+<article class="home-intro prose">
+  {{- with .Title }}{{ if ne . site.Title }}<h1>{{ . }}</h1>{{ end }}{{ end }}
+  {{ .Content }}
+</article>
+
+{{- /*
+  Every story in the site, wherever its file sits under content/.
+  Stories that share a "series" are grouped; within a group, "weight"
+  (lowest first) wins, then date, then title.
+*/}}
+{{- $stories := where site.RegularPages "Draft" false }}
+{{- $stories = sort (sort $stories "Date") "Weight" }}
+{{- $series := slice }}
+{{- range $stories }}{{ with .Params.series }}{{ $series = $series | append . }}{{ end }}{{ end }}
+
+{{- range $series | uniq }}
+  {{- $name := . }}
+  <section class="story-group">
+    <h2>{{ $name }}</h2>
+    {{ partial "story-list.html" (where $stories "Params.series" $name) }}
+  </section>
+{{- end }}
+
+{{- $loose := where $stories "Params.series" "==" nil }}
+{{- with $loose }}
+  <section class="story-group">
+    {{- if $series }}<h2>Other stories</h2>{{ end }}
+    {{ partial "story-list.html" . }}
+  </section>
+{{- end }}
+
+{{- if not $stories }}
+  <p class="empty">No stories yet. Add Markdown files to <code>content/stories/</code>, or use the editor.</p>
+{{- end }}
+{{ end }}

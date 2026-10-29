@@ -1,0 +1,57 @@
+# Sveltia CMS config — https://sveltiacms.app/en/docs
+# Same editor as the main site, pointed at this repo. Every save is a commit
+# to main, which triggers the Hugo GitHub Pages build (.github/workflows/hugo.yml).
+backend:
+  name: github
+  repo: SoulFireMage/stories
+  branch: main
+  commit_messages:
+    create: 'Create {{collection}} “{{slug}}” (via site editor)'
+    update: 'Update {{collection}} “{{slug}}” (via site editor)'
+    delete: 'Delete {{collection}} “{{slug}}” (via site editor)'
+    uploadMedia: 'Upload “{{path}}” (via site editor)'
+    deleteMedia: 'Delete “{{path}}” (via site editor)'
+
+site_url: https://soulfiremage.github.io/stories/
+display_url: https://soulfiremage.github.io/stories/
+logo_url: /stories/images/wing-left.png
+
+media_folder: static/images
+# This is a project site, so everything is served under /stories/.
+public_folder: /stories/images
+
+collections:
+  - name: stories
+    label: Stories
+    label_singular: Story
+    folder: content/stories
+    create: true
+    slug: '{{slug}}'
+    preview_path: '{{slug | lower}}/'
+    sortable_fields: [title, date, series, weight]
+    view_groups:
+      - { label: Series, field: series }
+    view_filters:
+      - { label: Drafts, field: draft, pattern: true }
+    fields:
+      # Not required: a story pasted in from Google Docs with no front matter
+      # still shows up, titled from its file name.
+      - { label: Title, name: title, widget: string, required: false }
+      - { label: Series, name: series, widget: string, required: false, hint: 'Stories with the same series name are grouped together on the index.' }
+      - { label: Order, name: weight, widget: number, value_type: int, required: false, hint: 'Lower numbers come first within a series (or among stories with no series).' }
+      - { label: Description, name: description, widget: string, required: false, hint: 'One line shown under the title on the index.' }
+      - { label: Date, name: date, widget: datetime, required: false }
+      - { label: Draft, name: draft, widget: boolean, default: false, required: false, hint: 'Drafts are left off the published site.' }
+      # Raw Markdown first: Google Docs exports can carry inline HTML that a
+      # rich-text round trip could mangle. Switch per edit if wanted.
+      - &body { label: Body, name: body, widget: markdown, modes: [raw, rich_text] }
+
+  - name: pages
+    label: Pages
+    files:
+      - label: Index (home page)
+        name: home
+        file: content/_index.md
+        fields:
+          - { label: Title, name: title, widget: string }
+          - { label: Introduction, name: body, widget: markdown, modes: [raw, rich_text], hint: 'Shown above the list of stories, which updates by itself.' }

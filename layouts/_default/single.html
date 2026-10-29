@@ -1,0 +1,19 @@
+{{ define "main" }}
+<article class="story">
+  <header class="story-header">
+    {{- with .Params.series }}<p class="series">{{ . }}</p>{{ end }}
+    {{- /* A Google Docs export usually opens with its own "# Title"; don't repeat it. */}}
+    {{- if or .Title (not (hasPrefix (strings.TrimSpace .Content) "<h1")) }}
+    <h1>{{ partial "title.html" . }}</h1>
+    {{- end }}
+    <p class="meta">
+      {{- with .Params.author }}{{ . }} · {{ end -}}
+      {{ .WordCount | lang.FormatNumber 0 }} words · {{ .ReadingTime }} min read
+    </p>
+  </header>
+  <div class="prose">
+    {{ .Content }}
+  </div>
+</article>
+<nav class="back"><a href="{{ "" | relURL }}">← All stories</a></nav>
+{{ end }}

@@ -1,0 +1,50 @@
+<!doctype html>
+<html lang="{{ site.LanguageCode }}">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  {{- $title := partial "title.html" . }}
+  <title>{{ if .IsHome }}{{ site.Title }}{{ else }}{{ $title }} · {{ site.Title }}{{ end }}</title>
+  <meta name="description" content="{{ with .Description }}{{ . }}{{ else }}{{ site.Params.description }}{{ end }}">
+  <link rel="icon" href="{{ "images/wing-left.png" | relURL }}">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Literata:ital,opsz,wght@0,7..72,400;0,7..72,600;1,7..72,400&display=swap">
+  <script>
+    // Apply a saved light/dark choice before first paint.
+    try { var t = localStorage.getItem('sfm-theme'); if (t) document.documentElement.dataset.theme = t; } catch (e) {}
+  </script>
+  {{- with resources.Get "css/main.css" | minify | fingerprint }}
+  <link rel="stylesheet" href="{{ .RelPermalink }}" integrity="{{ .Data.Integrity }}">
+  {{- end }}
+  {{- partial "edit-bar.html" . }}
+</head>
+<body>
+  <header class="site-header">
+    <a class="site-title" href="{{ "" | relURL }}">
+      <img src="{{ "images/wing-left.png" | relURL }}" alt="" width="28" height="28">
+      <span>{{ site.Title }}</span>
+    </a>
+    <nav>
+      <a href="{{ site.Params.mainSite }}">Main site</a>
+      <button id="theme-toggle" type="button" aria-label="Switch light/dark theme" title="Switch light/dark theme">◐</button>
+    </nav>
+  </header>
+  <div class="ventrali" aria-hidden="true"></div>
+  <main>
+    {{- block "main" . }}{{ end }}
+  </main>
+  <footer class="site-footer">
+    <p>© {{ now.Year }} {{ site.Params.author }}</p>
+  </footer>
+  <script>
+    document.getElementById('theme-toggle').addEventListener('click', function () {
+      var root = document.documentElement;
+      var dark = root.dataset.theme ? root.dataset.theme === 'dark'
+                                    : matchMedia('(prefers-color-scheme: dark)').matches;
+      root.dataset.theme = dark ? 'light' : 'dark';
+      try { localStorage.setItem('sfm-theme', root.dataset.theme); } catch (e) {}
+    });
+  </script>
+</body>
+</html>

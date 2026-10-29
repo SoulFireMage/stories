@@ -1,0 +1,74 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="robots" content="noindex" />
+    <title>Stories Editor</title>
+    <script>
+      // Signing in here also switches on the edit buttons on the stories (and main) site.
+      try { localStorage.setItem('sfm-editor', '1'); } catch (e) {}
+    </script>
+  </head>
+  <body>
+    <script src="https://unpkg.com/@sveltia/cms@0.217.0/dist/sveltia-cms.js"></script>
+    <script>
+      // Live word count for whichever body field you're typing in
+      // (raw Markdown is a <textarea>, rich text is a contenteditable).
+      (function () {
+        var badge = document.createElement('div');
+        badge.id = 'sfm-wordcount';
+        badge.hidden = true;
+
+        function textOf(el) {
+          if (!el) return null;
+          if (el.tagName === 'TEXTAREA') return el.value;
+          var ed = el.closest && el.closest('[contenteditable="true"]');
+          return ed ? ed.innerText : null;
+        }
+        function countWords(md) {
+          var t = md
+            .replace(/```[\s\S]*?```/g, ' ')        // fenced code
+            .replace(/\{\{[<%][\s\S]*?[>%]\}\}/g, ' ') // Hugo shortcodes
+            .replace(/<[^>]+>/g, ' ')                // HTML tags
+            .replace(/!?\[([^\]]*)\]\([^)]*\)/g, '$1') // links/images: keep the text
+            .replace(/https?:\/\/\S+/g, ' ');       // bare URLs
+          var m = t.match(/[\p{L}\p{N}][\p{L}\p{N}'\u2019-]*/gu);
+          return m ? m.length : 0;
+        }
+        function update(e) {
+          var txt = textOf(e.target);
+          if (txt == null) return;
+          // Attach lazily: the CMS takes over <body> when it starts.
+          if (!badge.isConnected) document.body.appendChild(badge);
+          var n = countWords(txt);
+          badge.textContent = n.toLocaleString() + (n === 1 ? ' word' : ' words');
+          badge.hidden = false;
+          place();
+        }
+        // Keep the badge above the on-screen keyboard on phones.
+        function place() {
+          var vv = window.visualViewport;
+          var gap = vv ? Math.max(0, window.innerHeight - vv.offsetTop - vv.height) : 0;
+          badge.style.bottom = (12 + gap) + 'px';
+        }
+        document.addEventListener('input', update, true);
+        document.addEventListener('focusin', update, true);
+        document.addEventListener('focusout', function (e) {
+          if (textOf(e.target) != null) setTimeout(function () {
+            if (textOf(document.activeElement) == null) badge.hidden = true;
+          }, 200);
+        }, true);
+        if (window.visualViewport) {
+          visualViewport.addEventListener('resize', place);
+          visualViewport.addEventListener('scroll', place);
+        }
+      })();
+    </script>
+    <style>
+      #sfm-wordcount { position: fixed; right: 12px; bottom: 12px; z-index: 2147483647; padding: 4px 10px; border-radius: 999px;
+        font: 600 13px/1.4 system-ui, sans-serif; background: rgba(30, 30, 30, .85); color: #fff; pointer-events: none; }
+      #sfm-wordcount[hidden] { display: none; }
+    </style>
+  </body>
+</html>

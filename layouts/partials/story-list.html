@@ -1,0 +1,9 @@
+<ul class="story-list">
+  {{- range . }}
+  <li>
+    <a href="{{ .RelPermalink }}">{{ partial "title.html" . }}</a>
+    {{- with .Description }}<p>{{ . }}</p>{{ end }}
+    <span class="meta">{{ .WordCount | lang.FormatNumber 0 }} words · {{ .ReadingTime }} min read</span>
+  </li>
+  {{- end }}
+</ul>

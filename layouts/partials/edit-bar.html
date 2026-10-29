@@ -1,0 +1,44 @@
+{{- /*
+  Owner-only edit buttons, same as the main site's. Hidden for normal visitors;
+  they appear once this browser has opened an /admin/ page (this site's or the
+  main site's, which share the flag) or visited any page with ?edit=on
+  (?edit=off hides it).
+  "Edit here" opens the page in this site's editor (/stories/admin/);
+  "GitHub" opens GitHub's own editor, which uses your existing github.com login.
+*/ -}}
+{{- $admin := "admin/" | relURL }}
+{{- $path := "" }}
+{{- $cmsLink := "" }}
+{{- with .File }}
+  {{- $path = .Path | replaceRE `\\` "/" | strings.TrimPrefix "/" }}
+  {{- if eq $path "_index.md" }}
+    {{- $cmsLink = "#/collections/pages/entries/home" }}
+  {{- else if and (hasPrefix $path "stories/") (ne .LogicalName "_index.md") (not (strings.Contains (strings.TrimPrefix "stories/" $path) "/")) }}
+    {{- $cmsLink = printf "#/collections/stories/entries/%s" .ContentBaseName }}
+  {{- end }}
+{{- end }}
+{{- $links := slice }}
+{{- with $cmsLink }}{{ $links = $links | append (dict "t" "✎ Edit here" "h" (printf "%s%s" $admin .) "d" "Edit this page in the site editor") }}{{ end }}
+{{- with $path }}{{ $links = $links | append (dict "t" "GitHub" "h" (printf "%s/edit/%s/content/%s" site.Params.repo site.Params.branch .) "d" "Edit this page's Markdown on GitHub") }}{{ end }}
+{{- $links = $links | append (dict "t" "+ New story" "h" (printf "%s#/collections/stories/new" $admin) "d" "Write a new story") }}
+<script>
+  (function () {
+    try {
+      var p = new URLSearchParams(location.search).get('edit');
+      if (p === 'on') localStorage.setItem('sfm-editor', '1');
+      if (p === 'off') localStorage.removeItem('sfm-editor');
+      if (!localStorage.getItem('sfm-editor')) return;
+    } catch (e) { return; }
+    var links = {{ $links | jsonify | safeJS }};
+    document.addEventListener('DOMContentLoaded', function () {
+      var bar = document.createElement('div');
+      bar.id = 'sfm-edit';
+      links.forEach(function (l) {
+        var a = document.createElement('a');
+        a.href = l.h; a.title = l.d; a.textContent = l.t;
+        bar.appendChild(a);
+      });
+      document.body.appendChild(bar);
+    });
+  })();
+</script>

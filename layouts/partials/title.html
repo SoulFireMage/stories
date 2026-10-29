@@ -1,0 +1,9 @@
+{{- /*
+  A page's title, or one made from its file name when there is no front matter
+  (e.g. a raw Google Docs export "the-long-fold.md" -> "The Long Fold").
+*/ -}}
+{{- $t := .Title -}}
+{{- if and (not $t) .File -}}
+  {{- $t = .File.ContentBaseName | replaceRE `[-_]+` " " | title -}}
+{{- end -}}
+{{- return $t -}}

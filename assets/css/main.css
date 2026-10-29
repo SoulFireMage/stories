@@ -1,0 +1,162 @@
+/* Light, quiet palette with a hint of the Aktarian ships' colouring:
+   violet and plum, silver, and a thread of crimson. */
+:root {
+  --bg: #faf8fc;
+  --surface: #ffffff;
+  --text: #2a2433;
+  --muted: #6b6278;
+  --accent: #6b4c9a;
+  --accent-soft: #efe9f7;
+  --crimson: #a23b5a;
+  --silver: #c9c4d1;
+  --border: #e6dff0;
+  --reading: 'Literata', Georgia, 'Times New Roman', serif;
+  --ui: system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif;
+  color-scheme: light;
+}
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    --bg: #16131c;
+    --surface: #1f1a27;
+    --text: #e9e4f0;
+    --muted: #a79fb5;
+    --accent: #b79be0;
+    --accent-soft: #2a2236;
+    --crimson: #d77a95;
+    --silver: #5d566a;
+    --border: #2f283a;
+    color-scheme: dark;
+  }
+}
+:root[data-theme="dark"] {
+  --bg: #16131c;
+  --surface: #1f1a27;
+  --text: #e9e4f0;
+  --muted: #a79fb5;
+  --accent: #b79be0;
+  --accent-soft: #2a2236;
+  --crimson: #d77a95;
+  --silver: #5d566a;
+  --border: #2f283a;
+  color-scheme: dark;
+}
+
+*, *::before, *::after { box-sizing: border-box; }
+html { -webkit-text-size-adjust: 100%; }
+body {
+  margin: 0;
+  background: var(--bg);
+  color: var(--text);
+  font-family: var(--ui);
+  line-height: 1.6;
+}
+a { color: var(--accent); text-underline-offset: 2px; }
+a:hover { color: var(--crimson); }
+
+.site-header, main, .site-footer {
+  max-width: 44rem;
+  margin: 0 auto;
+  padding: 0 16px;
+}
+.site-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  padding-top: 20px;
+  padding-bottom: 14px;
+}
+.site-title {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  color: var(--text);
+  text-decoration: none;
+  font-family: var(--reading);
+  font-weight: 600;
+  font-size: 1.25rem;
+}
+.site-title img { border-radius: 50%; }
+.site-header nav { display: flex; align-items: center; gap: 14px; font-size: .9rem; }
+#theme-toggle {
+  border: 1px solid var(--border);
+  background: var(--surface);
+  color: var(--muted);
+  border-radius: 999px;
+  width: 32px;
+  height: 32px;
+  font-size: 16px;
+  cursor: pointer;
+}
+#theme-toggle:hover { color: var(--accent); }
+
+/* Thin fractal-wing thread under the header: violet, silver, crimson. */
+.ventrali {
+  height: 2px;
+  max-width: 44rem;
+  margin: 0 auto 32px;
+  background: linear-gradient(90deg, transparent, var(--accent) 20%, var(--silver) 50%, var(--crimson) 80%, transparent);
+  opacity: .55;
+}
+
+h1, h2, h3 { font-family: var(--reading); font-weight: 600; line-height: 1.25; }
+h1 { font-size: 2rem; margin: 0 0 .4em; }
+h2 { font-size: 1.3rem; color: var(--accent); }
+
+.prose { font-family: var(--reading); font-size: 1.1rem; line-height: 1.75; overflow-wrap: break-word; }
+.prose p { margin: 0 0 1.1em; }
+.prose img { max-width: 100%; height: auto; }
+.prose blockquote {
+  margin: 1.2em 0;
+  padding: .2em 1em;
+  border-left: 3px solid var(--accent);
+  background: var(--accent-soft);
+  border-radius: 0 6px 6px 0;
+}
+.prose hr {
+  border: 0;
+  text-align: center;
+  margin: 2em 0;
+}
+.prose hr::after { content: '✦ ✦ ✦'; color: var(--silver); letter-spacing: .6em; }
+.prose pre, .prose code { font-size: .9em; }
+.prose pre { overflow-x: auto; background: var(--accent-soft); padding: 12px; border-radius: 6px; }
+.prose table { display: block; overflow-x: auto; border-collapse: collapse; }
+.prose td, .prose th { border: 1px solid var(--border); padding: 4px 8px; }
+
+.home-intro { margin-bottom: 2rem; }
+
+.story-group { margin-bottom: 2rem; }
+.story-list { list-style: none; margin: 0; padding: 0; }
+.story-list li {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  padding: 14px 16px;
+  margin-bottom: 12px;
+}
+.story-list li:hover { border-color: var(--accent); }
+.story-list a { font-family: var(--reading); font-size: 1.15rem; font-weight: 600; text-decoration: none; }
+.story-list p { margin: 4px 0 6px; color: var(--muted); }
+.story-list .meta { display: block; margin-top: 4px; }
+.meta { color: var(--muted); font-size: .85rem; }
+
+.story-header { margin-bottom: 2rem; }
+.series { margin: 0 0 4px; color: var(--crimson); font-size: .85rem; letter-spacing: .08em; text-transform: uppercase; }
+
+.back { margin: 2.5rem 0; }
+.empty { color: var(--muted); }
+
+.site-footer {
+  border-top: 1px solid var(--border);
+  margin-top: 3rem;
+  padding-top: 16px;
+  padding-bottom: 72px; /* room for the edit bar */
+  color: var(--muted);
+  font-size: .85rem;
+}
+
+/* Owner-only edit bar (see layouts/partials/edit-bar.html). */
+#sfm-edit { position: fixed; left: 16px; bottom: 16px; z-index: 100; display: flex; gap: 6px; flex-wrap: wrap; font: 14px var(--ui); }
+#sfm-edit a { padding: 6px 12px; border-radius: 999px; background: var(--accent); color: var(--bg); box-shadow: 0 2px 8px rgba(0,0,0,.25); text-decoration: none; }
+#sfm-edit a:hover { opacity: .85; }

@@ -1,0 +1,27 @@
+baseURL = 'https://soulfiremage.github.io/stories/'
+languageCode = 'en-gb'
+title = 'Stories'
+
+# No tags/categories pages; stories are listed on the home page.
+disableKinds = ['taxonomy', 'term']
+
+[params]
+  author = 'Richard Griffiths'
+  description = 'Stories by Richard Griffiths, including the Aktarian Tales.'
+  mainSite = 'https://soulfiremage.github.io/'
+  repo = 'https://github.com/SoulFireMage/stories'
+  branch = 'main'
+
+[markup.goldmark.renderer]
+  # Google Docs exports and hand-written stories sometimes carry inline HTML.
+  unsafe = true
+
+[markup.goldmark.parser.attribute]
+  block = true
+
+# The site already lives at /stories/, so a story is /stories/<name>/,
+# not /stories/stories/<name>/.
+[permalinks.page]
+  stories = '/:slugorcontentbasename/'
+[permalinks.section]
+  stories = '/all/'
