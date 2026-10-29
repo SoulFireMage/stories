@@ -65,7 +65,7 @@ Visitors never see it. Add `?edit=on` or `?edit=off` to any page URL to toggle i
 Every story has **A−/A+** (text size, 14–28px) and a **width slider** under its title,
 borrowed from openlogz: it runs from a narrow column to the full screen on a log
 scale, measured in characters so bigger text keeps the same words per line.
-**Reset** restores the defaults. Choices are remembered per browser. On phones only
+**Reset** restores the defaults. Once you scroll past them, the same controls sit behind a floating **Aa** button at the bottom right. Choices are remembered per browser. On phones only
 the size buttons show. Code: `layouts/partials/reader-controls.html` and the
 `sfmReader` script in `layouts/_default/baseof.html`.
 

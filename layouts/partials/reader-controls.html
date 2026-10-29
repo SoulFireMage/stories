@@ -5,7 +5,11 @@
   get most of the travel. Width is in em of the story text, so bigger text keeps
   the same words per line. Both settings are remembered in this browser.
   Saved values are applied before first paint by the script in baseof.html.
+
+  The same controls appear under the title and, once that has scrolled away,
+  behind a floating "Aa" button at the bottom right.
 */ -}}
+{{- define "partials/reader-controls-box" }}
 <div class="reader-controls" hidden>
   <button type="button" data-size="-1" title="Smaller text" aria-label="Smaller text">A−</button>
   <button type="button" data-size="1" title="Larger text" aria-label="Larger text">A+</button>
@@ -15,19 +19,48 @@
   </label>
   <button type="button" data-reset title="Back to the default size and width">Reset</button>
 </div>
+{{- end }}
+{{- partial "reader-controls-box" . }}
+<div class="reader-float" hidden>
+  <div class="reader-panel" id="reader-panel" hidden>{{ partial "reader-controls-box" . }}</div>
+  <button type="button" class="reader-fab" aria-expanded="false" aria-controls="reader-panel" title="Text size and width">Aa</button>
+</div>
 <script>
   (function () {
-    var R = window.sfmReader, box = document.currentScript.previousElementSibling;
+    var R = window.sfmReader, me = document.currentScript;
     if (!R) return;
-    var range = box.querySelector('input');
-    range.value = R.width;
-    box.hidden = false;
-    box.addEventListener('click', function (e) {
-      var b = e.target.closest('button');
-      if (!b) return;
-      if (b.hasAttribute('data-reset')) { R.set(R.SIZE_DEFAULT, R.WIDTH_DEFAULT); range.value = R.width; return; }
-      R.set(Math.max(14, Math.min(28, R.size + +b.dataset.size)), R.width);
+    var float = me.previousElementSibling, inline = float.previousElementSibling;
+    var boxes = [inline, float.querySelector('.reader-controls')];
+    var panel = float.querySelector('.reader-panel'), fab = float.querySelector('.reader-fab');
+
+    function sync() { boxes.forEach(function (b) { b.querySelector('input').value = R.width; }); }
+    boxes.forEach(function (box) {
+      box.hidden = false;
+      box.addEventListener('click', function (e) {
+        var b = e.target.closest('button');
+        if (!b) return;
+        if (b.hasAttribute('data-reset')) R.set(R.SIZE_DEFAULT, R.WIDTH_DEFAULT);
+        else R.set(Math.max(14, Math.min(28, R.size + +b.dataset.size)), R.width);
+        sync();
+      });
+      box.querySelector('input').addEventListener('input', function (e) { R.set(R.size, +e.target.value); sync(); });
     });
-    range.addEventListener('input', function () { R.set(R.size, +range.value); });
+    sync();
+
+    function open(on) { panel.hidden = !on; fab.setAttribute('aria-expanded', on); }
+    fab.addEventListener('click', function () { open(panel.hidden); });
+    document.addEventListener('keydown', function (e) { if (e.key === 'Escape') open(false); });
+    document.addEventListener('click', function (e) { if (!float.contains(e.target)) open(false); });
+
+    // Show the floating button only while the controls under the title are off screen.
+    if ('IntersectionObserver' in window) {
+      new IntersectionObserver(function (entries) {
+        var away = !entries[0].isIntersecting;
+        float.hidden = !away;
+        if (!away) open(false);
+      }).observe(inline);
+    } else {
+      float.hidden = false;
+    }
   })();
 </script>
