@@ -56,9 +56,48 @@ main site), every page shows a button bar at the bottom left:
 
 - **✎ Edit here**: opens the story, or the index text, in the site editor.
 - **GitHub**: opens the page's Markdown in GitHub's own editor (your normal login).
+- **▶ Continue**: opens the story in Block Breaker (below).
 - **+ New story**: opens a blank story in the site editor.
 
 Visitors never see it. Add `?edit=on` or `?edit=off` to any page URL to toggle it.
+
+## Block Breaker: writing forward without rereading
+
+https://starship-whisperer.com/stories/breaker/ (or **▶ Continue** in the edit
+buttons on any story) is for getting on with a story instead of re-editing it.
+It never shows the story's text. You get:
+
+- **Last lines**: the final ~150 words, read-only, to match the voice.
+- **An empty box**. **Commit & append** (or Ctrl/⌘+Enter) adds what you wrote to
+  the end of the story's Markdown as a commit to `main`, then empties the box.
+  The box is saved in the browser as you type, so a closed tab loses nothing.
+- **A recap** in place of rereading: where we are, open loops, story so far,
+  people, places and things, details.
+- **Fix later**: when you spot something wrong, note it here and keep going.
+  **Pinned facts** are for decisions that mustn't get lost. Both are saved to
+  `canon/<story>.notes.json` with your next commit.
+
+It uses the site editor's sign-in. In a browser that hasn't signed in there, it
+asks for the same access token once.
+
+**The recap** is written by `.github/workflows/canon.yml`, which runs
+`scripts/canon.mjs` after every push that changes a story and commits
+`canon/<story>.json` a minute or two later. It reads the whole story each time
+and only records what is on the page; it suggests nothing and writes no prose.
+To switch it on:
+
+1. Create an API key at https://platform.claude.com/ and add it to this
+   repository as a secret named `ANTHROPIC_API_KEY`
+   (Settings → Secrets and variables → Actions).
+2. Run **Update story recaps** once from the Actions tab to write a recap for
+   every story.
+
+Without the key everything else still works; the recap panel just stays empty.
+The model is `claude-opus-5-5` unless a repository variable `CANON_MODEL` says
+otherwise (`claude-sonnet-5-5` or `claude-haiku-5-5` cost less per run).
+
+Code: `layouts/_default/breaker.html`, `assets/js/breaker.js`, and the
+"Block Breaker" block at the end of `assets/css/main.css`.
 
 ## Reading controls
 

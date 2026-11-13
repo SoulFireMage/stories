@@ -33,7 +33,8 @@
   {{- with resources.Get "css/main.css" | minify | fingerprint }}
   <link rel="stylesheet" href="{{ .RelPermalink }}" integrity="{{ .Data.Integrity }}">
   {{- end }}
-  {{- partial "edit-bar.html" . }}
+  {{- /* No floating edit bar over the writing page. */}}
+  {{- if not .Params.breaker }}{{ partial "edit-bar.html" . }}{{ end }}
 </head>
 <body>
   <header class="site-header">

@@ -18,6 +18,12 @@
   {{- end }}
 {{- end }}
 {{- $links := slice }}
+{{- /* Block Breaker: write the next part without opening the text (layouts/_default/breaker.html). */}}
+{{- if and $cmsLink (ne $path "_index.md") }}
+  {{- $links = $links | append (dict "t" "▶ Continue" "h" (printf "%s?story=%s" ("breaker/" | relURL) (printf "content/%s" $path | urlquery)) "d" "Write the next part without rereading (Block Breaker)") }}
+{{- else }}
+  {{- $links = $links | append (dict "t" "▶ Continue a story" "h" ("breaker/" | relURL) "d" "Write the next part of a story without rereading (Block Breaker)") }}
+{{- end }}
 {{- with $cmsLink }}{{ $links = $links | append (dict "t" "✎ Edit here" "h" (printf "%s%s" $admin .) "d" "Edit this page in the site editor") }}{{ end }}
 {{- with $path }}{{ $links = $links | append (dict "t" "GitHub" "h" (printf "%s/edit/%s/content/%s" site.Params.repo site.Params.branch .) "d" "Edit this page's Markdown on GitHub") }}{{ end }}
 {{- $links = $links | append (dict "t" "+ New story" "h" (printf "%s#/collections/stories/new" $admin) "d" "Write a new story") }}

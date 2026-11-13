@@ -1,0 +1,35 @@
+{{ define "main" }}
+{{- /*
+  Block Breaker: forward-only writing (see README.md). The page never shows a
+  story's text, only its last few lines, and appends what you write as a new
+  commit. All the work is in assets/js/breaker.js; the story list is baked in
+  here at build time.
+*/ -}}
+{{- $stories := slice }}
+{{- range sort (sort site.RegularPages "Date") "Weight" }}
+  {{- if .File }}
+    {{- $stories = $stories | append (dict
+        "title" (partial "title.html" .)
+        "path" (printf "content/%s" (.File.Path | replaceRE `\\` "/" | strings.TrimPrefix "/"))
+        "url" .RelPermalink
+        "words" .WordCount
+        "series" (.Params.series | default "")
+        "draft" .Draft) }}
+  {{- end }}
+{{- end }}
+<div class="bb" id="bb">
+  <noscript><p>Block Breaker needs JavaScript.</p></noscript>
+</div>
+<script type="application/json" id="bb-config">
+{{- dict
+    "repo" (site.Params.repo | strings.TrimPrefix "https://github.com/")
+    "branch" site.Params.branch
+    "admin" ("admin/" | relURL)
+    "home" ("" | relURL)
+    "stories" $stories
+  | jsonify | safeJS -}}
+</script>
+{{- with resources.Get "js/breaker.js" | minify | fingerprint }}
+<script src="{{ .RelPermalink }}" integrity="{{ .Data.Integrity }}" defer></script>
+{{- end }}
+{{ end }}
