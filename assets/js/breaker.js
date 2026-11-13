@@ -197,8 +197,9 @@
     var base = story.path.replace(/^.*\//, '').replace(/\.md$/, '');
     var canonPath = 'canon/' + base + '.json', notesPath = 'canon/' + base + '.notes.json';
     var draftKey = 'sfm-bb-draft:' + story.path, notesKey = 'sfm-bb-notes:' + story.path;
-    var file = null, canon = null, notesSha = null;
-    var notes = { pinned: [], fix_later: [] }, notesDirty = false;
+    var file = null, canon = null, saving = false;
+    // notesBase is the copy last seen in the repository; edits are merged against it.
+    var notes = { pinned: [], fix_later: [] }, notesBase = { pinned: [], fix_later: [] }, notesDirty = false, notesSaving = null;
     var session = { chunks: 0, words: 0 };
     try { session = JSON.parse(sessionStorage.getItem('sfm-bb-session:' + story.path)) || session; } catch (e) {}
 
@@ -208,7 +209,7 @@
     var count = el('span', { class: 'bb-muted' });
     var commitBtn = el('button', { type: 'button', class: 'bb-primary', text: 'Commit & append', onclick: commit });
     var discardBtn = el('button', { type: 'button', class: 'bb-quiet', text: 'Discard', onclick: function () {
-      if (area.value.trim() && confirm('Throw away what’s in the box?')) { area.value = ''; onInput(); }
+      if (!saving && area.value.trim() && confirm('Throw away what’s in the box?')) { area.value = ''; onInput(); }
     } });
     var rail = el('aside', { class: 'bb-rail' });
 
@@ -222,7 +223,8 @@
       store(draftKey, area.value || null);
       var n = countWords(area.value);
       count.textContent = plural(n, 'word') + (session.chunks ? ' · this sitting: ' + plural(session.chunks, 'chunk') + ', ' + plural(session.words, 'word') : '');
-      commitBtn.disabled = !n || !file;
+      commitBtn.disabled = saving || !n || !file;
+      discardBtn.disabled = saving;
       area.style.height = 'auto';
       area.style.height = Math.max(area.scrollHeight + 2, 320) + 'px';
     }
@@ -233,8 +235,11 @@
 
     function commit() {
       var chunk = area.value.trim();
-      if (!chunk || !file || commitBtn.disabled) return;
-      commitBtn.disabled = true;
+      if (!chunk || !file || saving) return;
+      // Lock the box until the save settles: anything typed meanwhile would
+      // either be wiped with the committed chunk or sent twice.
+      saving = true; area.readOnly = true;
+      onInput();
       say('Saving…');
       var words = countWords(chunk);
       // Re-read first: the story may have changed elsewhere since this page loaded.
@@ -246,6 +251,7 @@
           file = { text: text, sha: sha };
         });
       }).then(function () {
+        saving = false; area.readOnly = false;
         area.value = '';
         session.chunks++; session.words += words;
         try { sessionStorage.setItem('sfm-bb-session:' + story.path, JSON.stringify(session)); } catch (e) {}
@@ -254,6 +260,7 @@
         area.focus();
         return notesDirty ? saveNotes(true) : null;
       }).catch(function (e) {
+        saving = false; area.readOnly = false;
         if (e.auth) return tokenView('GitHub rejected the token. Paste a current one; your draft is safe in this browser.', start);
         say(e.message + ' Your draft is still in the box.', 'error');
         onInput();
@@ -262,20 +269,46 @@
 
     // ----- notes (pinned facts, fix later): yours, kept beside the recap -----
 
-    function touchNotes() {
-      notesDirty = true;
-      storeJSON(notesKey, notes);
-      drawRail();
+    function copyNotes(n) { return { pinned: (n.pinned || []).slice(), fix_later: (n.fix_later || []).slice() }; }
+    function sameNotes(a, b) { return JSON.stringify(copyNotes(a)) === JSON.stringify(copyNotes(b)); }
+    // What "theirs" becomes once the changes made from "base" to "mine" are
+    // applied to it: my removals come out, my additions go on the end.
+    function merge(base, mine, theirs) {
+      var out = {};
+      ['pinned', 'fix_later'].forEach(function (k) {
+        var b = base[k] || [], m = mine[k] || [];
+        out[k] = (theirs[k] || []).filter(function (t) { return b.indexOf(t) < 0 || m.indexOf(t) >= 0; });
+        m.forEach(function (t) { if (b.indexOf(t) < 0 && out[k].indexOf(t) < 0) out[k].push(t); });
+      });
+      return out;
     }
+    function keepNotes() {
+      notesDirty = !sameNotes(notes, notesBase);
+      storeJSON(notesKey, notesDirty ? { notes: notes, base: notesBase } : null);
+    }
+    function touchNotes() { keepNotes(); drawRail(); }
     function saveNotes(quiet) {
-      return readFile(notesPath).then(function (remote) {
-        return writeFile(notesPath, JSON.stringify(notes, null, 2) + '\n', remote && remote.sha,
-          'Notes for “' + (story.title || base) + '” (Block Breaker)');
-      }).then(function (sha) {
-        notesSha = sha; notesDirty = false; storeJSON(notesKey, null);
-        drawRail();
+      if (notesSaving) return notesSaving;
+      var sent = copyNotes(notes);
+      notesSaving = readFile(notesPath).then(function (remote) {
+        var theirs = { pinned: [], fix_later: [] };
+        try { if (remote) theirs = copyNotes(JSON.parse(remote.text)); } catch (e) {}
+        // Another tab or device may have saved notes since this page loaded.
+        var merged = merge(notesBase, sent, theirs);
+        return writeFile(notesPath, JSON.stringify(merged, null, 2) + '\n', remote && remote.sha,
+          'Notes for “' + (story.title || base) + '” (Block Breaker)').then(function () { return merged; });
+      }).then(function (merged) {
+        // Notes added or removed while the save was in flight are still unsaved.
+        notes = merge(sent, notes, merged);
+        notesBase = merged;
+        notesSaving = null;
+        keepNotes(); drawRail();
         if (!quiet) say('Notes saved.', 'ok');
-      }).catch(function (e) { say('Notes not saved yet (' + e.message + ') They’re kept in this browser.', 'error'); });
+      }).catch(function (e) {
+        notesSaving = null;
+        say('Notes not saved yet (' + e.message + ') They’re kept in this browser.', 'error');
+      });
+      return notesSaving;
     }
     function noteList(key, label, hint, placeholder, open) {
       var input = el('input', { type: 'text', placeholder: placeholder, 'aria-label': label });
@@ -379,11 +412,12 @@
     Promise.all([readFile(story.path), readFile(notesPath), loadCanon()]).then(function (r) {
       if (!r[0]) throw new Error('Can’t find ' + story.path + ' in the repository.');
       file = r[0];
-      var local = storeJSON(notesKey), remote = null;
-      try { remote = r[1] ? JSON.parse(r[1].text) : null; } catch (e) {}
-      notesSha = r[1] && r[1].sha;
-      if (local) { notes = local; notesDirty = true; } else if (remote) notes = remote;
-      notes.pinned = notes.pinned || []; notes.fix_later = notes.fix_later || [];
+      var local = storeJSON(notesKey), remote = { pinned: [], fix_later: [] };
+      try { if (r[1]) remote = copyNotes(JSON.parse(r[1].text)); } catch (e) {}
+      // Unsaved notes from an earlier visit are replayed on top of whatever is in the repository now.
+      notes = local && local.notes ? merge(copyNotes(local.base || {}), copyNotes(local.notes), remote) : copyNotes(remote);
+      notesBase = remote;
+      keepNotes();
       drawAirlock(); drawRail(); onInput();
       say(area.value.trim() ? 'Picked up your unsent draft.' : '');
       area.focus();
