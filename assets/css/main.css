@@ -196,3 +196,56 @@ main:has(.story) .back { font-size: 1rem; max-width: 44rem; }
 #sfm-edit { position: fixed; left: 16px; bottom: 16px; z-index: 100; display: flex; gap: 6px; flex-wrap: wrap; font: 14px var(--ui); }
 #sfm-edit a { padding: 6px 12px; border-radius: 999px; background: var(--accent); color: var(--bg); box-shadow: 0 2px 8px rgba(0,0,0,.25); text-decoration: none; }
 #sfm-edit a:hover { opacity: .85; }
+
+/* Block Breaker (layouts/_default/breaker.html, assets/js/breaker.js) */
+main:has(.bb) { max-width: 78rem; }
+.bb { padding: 8px 0 48px; }
+.bb h1 { font: 600 1.5rem/1.3 var(--reading); margin: 16px 0 4px; }
+.bb-muted { color: var(--muted); font-size: .9rem; }
+.bb-head p { margin: 0 0 16px; }
+.bb-grid { display: grid; grid-template-columns: minmax(0, 1fr) minmax(17rem, 24rem); gap: 28px; align-items: start; }
+.bb-canvas { min-width: 0; }
+.bb details { border: 1px solid var(--border); border-radius: 8px; background: var(--surface); margin: 0 0 10px; padding: 0 14px; }
+.bb summary { cursor: pointer; padding: 10px 0; font-weight: 600; font-size: .95rem; }
+.bb details[open] { padding-bottom: 10px; }
+.bb-airlock { background: var(--accent-soft); }
+.bb-airlock-text { font-family: var(--reading); color: var(--muted); user-select: none; }
+.bb-airlock-text p { margin: 0 0 .7em; }
+.bb-airlock-text p:last-child { color: var(--text); margin-bottom: 0; }
+.bb-area { display: block; width: 100%; min-height: 320px; padding: 16px; border: 1px solid var(--silver); border-radius: 8px;
+  background: var(--surface); color: var(--text); font: 18px/1.7 var(--reading); resize: vertical; }
+.bb-area:focus { outline: 2px solid var(--accent); outline-offset: 1px; }
+.bb-bar { display: flex; align-items: center; gap: 10px; flex-wrap: wrap; margin-top: 10px; position: sticky; bottom: 0; padding: 8px 0; background: var(--bg); }
+.bb-spacer { flex: 1; }
+.bb button { font: inherit; font-size: .9rem; cursor: pointer; border-radius: 999px; padding: 7px 16px; border: 1px solid var(--silver); background: var(--surface); color: var(--text); }
+.bb .bb-primary { background: var(--accent); border-color: var(--accent); color: var(--bg); font-weight: 600; }
+.bb button:disabled { opacity: .45; cursor: default; }
+.bb .bb-quiet { border-color: transparent; background: none; color: var(--muted); }
+.bb .bb-link { border: 0; background: none; padding: 0; color: var(--accent); text-decoration: underline; font-size: inherit; }
+.bb .bb-x { border: 0; background: none; padding: 0 6px; color: var(--muted); font-size: 1.1rem; line-height: 1; }
+.bb-status { min-height: 1.6em; margin: 4px 0 0; font-size: .9rem; color: var(--muted); }
+.bb-status[data-kind="ok"] { color: var(--accent); }
+.bb-status[data-kind="error"] { color: var(--crimson); }
+.bb-rail { font-size: .93rem; line-height: 1.5; }
+.bb-rail h2 { font-size: .8rem; text-transform: uppercase; letter-spacing: .06em; color: var(--muted); margin: 0 0 4px; }
+.bb-rail h3 { font-size: .9rem; margin: 10px 0 2px; }
+.bb-where { border-left: 3px solid var(--crimson); padding: 2px 0 2px 12px; margin: 0 0 14px; }
+.bb-where p { margin: 0; }
+.bb-rail ul { margin: 0; padding-left: 1.1em; }
+.bb-rail li { margin: 0 0 6px; overflow-wrap: anywhere; }
+.bb-kind { margin-left: 6px; font-size: .72rem; text-transform: uppercase; letter-spacing: .05em; color: var(--muted); }
+.bb-notes { list-style: none; padding: 0 !important; }
+.bb-notes li { display: flex; gap: 6px; align-items: baseline; justify-content: space-between; border-bottom: 1px solid var(--border); padding: 4px 0; }
+.bb-add { display: flex; gap: 6px; margin-top: 8px; }
+.bb-add input, .bb-card input { flex: 1; min-width: 0; font: inherit; padding: 7px 10px; border: 1px solid var(--silver); border-radius: 6px; background: var(--bg); color: var(--text); }
+.bb-stale { margin: -6px 0 12px; }
+.bb-card { max-width: 32rem; display: grid; gap: 12px; }
+.bb-card p { margin: 0; }
+.bb-card button { justify-self: start; }
+.bb-pick { list-style: none; padding: 0; margin: 20px 0; display: grid; gap: 8px; max-width: 40rem; }
+.bb-pick a { display: grid; gap: 2px; padding: 12px 16px; border: 1px solid var(--border); border-radius: 8px; background: var(--surface); text-decoration: none; color: var(--text); }
+.bb-pick a:hover { border-color: var(--accent); }
+@media (max-width: 800px) {
+  .bb-grid { grid-template-columns: minmax(0, 1fr); }
+  .bb-area { font-size: 17px; padding: 12px; }
+}

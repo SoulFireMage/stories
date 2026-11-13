@@ -1,0 +1,63 @@
+# Rewrites the Block Breaker recap (canon/<story>.json) for any story that a
+# push changed. See scripts/canon.mjs and the README.
+#
+# Needs a repository secret ANTHROPIC_API_KEY. Optional repository variable
+# CANON_MODEL chooses the model.
+name: Update story recaps
+
+on:
+  push:
+    branches: ["main"]
+    paths: ["content/stories/**.md"]
+  workflow_dispatch:
+    inputs:
+      force:
+        description: Rebuild every recap, even ones that are up to date
+        type: boolean
+        default: false
+
+permissions:
+  contents: write
+
+# Several commits in quick succession only need the newest one recapped.
+concurrency:
+  group: canon
+  cancel-in-progress: true
+
+jobs:
+  canon:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+
+      - name: Install the Anthropic SDK
+        run: npm install --no-save --no-audit --no-fund @anthropic-ai/sdk@1
+
+      - name: Write recaps
+        env:
+          ANTHROPIC_API_KEY: ${{ secrets.ANTHROPIC_API_KEY }}
+          CANON_MODEL: ${{ vars.CANON_MODEL }}
+        # Every story is checked; ones whose recap already matches the text
+        # cost nothing.
+        run: node scripts/canon.mjs --all ${{ inputs.force && '--force' || '' }}
+
+      - name: Commit recaps
+        if: always()
+        run: |
+          git add canon
+          if git diff --cached --quiet; then
+            echo "No recap changes."
+            exit 0
+          fi
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git commit -m "Update story recaps"
+          for attempt in 1 2 3; do
+            git pull --rebase origin main && git push origin HEAD:main && exit 0
+            sleep 5
+          done
+          exit 1
