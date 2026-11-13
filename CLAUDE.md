@@ -6,3 +6,6 @@
 - Browser editing (Sveltia CMS at /admin/, edit bar) mirrors the main site
   repo SoulFireMage/soulfiremage.github.io; see README.md.
 - Check changes with a local `hugo` build before pushing.
+- Richard's standing preference: this is a personal site, so merge finished
+  work to `main` without asking. Still build and test first, and say plainly
+  what was merged and anything left untested.
